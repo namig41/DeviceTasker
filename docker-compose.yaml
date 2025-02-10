@@ -15,15 +15,6 @@ services:
     networks:
       - backend
 
-  cache:
-    image: redis:6
-    container_name: redis
-    restart: unless-stopped
-    ports:
-      - "${CACHE_PORT}:6379"
-    networks:
-      - backend
-
   db_postgres:
     image: postgres
     container_name: postgres

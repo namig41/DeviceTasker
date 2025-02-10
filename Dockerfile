@@ -14,6 +14,6 @@ ADD pyproject.toml /app/
 RUN pip install --upgrade pip
 RUN pip install uv
 
-RUN uv install --no-dev
+RUN uv sync --no-dev
 
 COPY /app/* /app/

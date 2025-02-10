@@ -1,39 +1,24 @@
-import uuid
-from typing import (
-    Protocol,
-    Sequence,
-    TypeVar,
+from abc import (
+    ABC,
+    abstractmethod,
 )
+from dataclasses import dataclass
+from typing import Iterable
+
+from domain.entities.task import Task
 
 
-ModelType = TypeVar("ModelType")
-ReadSchemaType = TypeVar("ReadSchemaType")
-CreateSchemaType = TypeVar("CreateSchemaType")
-UpdateSchemaType = TypeVar("UpdateSchemaType")
+@dataclass
+class BaseTaskRepository(ABC):
 
+    @abstractmethod
+    async def add_task(self, task: Task) -> None: ...
 
-class BaseRepositoryProtocol(
-    Protocol[ReadSchemaType, CreateSchemaType, UpdateSchemaType],
-):
-    async def get(self, id: uuid.UUID) -> ReadSchemaType: ...
+    @abstractmethod
+    async def get_task_by_id(self, id: int) -> Task: ...
 
-    async def get_or_none(self, id: uuid.UUID) -> ReadSchemaType | None: ...
+    @abstractmethod
+    async def get_all_task(self) -> Iterable[Task]: ...
 
-    async def get_by_ids(self, ids: Sequence[uuid.UUID]) -> list[ReadSchemaType]: ...
-
-    async def get_all(self) -> list[ReadSchemaType]: ...
-
-    async def create(self, create_object: CreateSchemaType) -> ReadSchemaType: ...
-
-    async def bulk_create(
-        self,
-        create_objects: list[CreateSchemaType],
-    ) -> list[ReadSchemaType]: ...
-
-    async def update(self, update_object: UpdateSchemaType) -> ReadSchemaType: ...
-
-    async def bulk_update(self, update_objects: list[UpdateSchemaType]) -> None: ...
-
-    async def upsert(self, create_object: CreateSchemaType) -> ReadSchemaType: ...
-
-    async def delete(self, id: uuid.UUID) -> bool: ...
+    @abstractmethod
+    async def delete_task_by_id(self, id: int) -> None: ...

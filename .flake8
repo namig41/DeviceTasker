@@ -2,4 +2,4 @@
 max-line-length = 120
 exclude = *__init__.py
 
-ignore = A003 E704 A002
+ignore = A003 E704 A002 A001

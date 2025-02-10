@@ -11,7 +11,8 @@ T = TypeVar("T")
 
 
 def batch_generator(
-    iterable: Iterable[T], batch_size: int,
+    iterable: Iterable[T],
+    batch_size: int,
 ) -> Generator[list[T], None, None]:
     """
     Генератор для возврата элементов батчами из итерируемого объекта.
