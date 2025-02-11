@@ -2,5 +2,7 @@ from enum import Enum
 
 
 class TaskStatus(Enum):
-    RUNNING = "Running"
-    STOPPED = "Stopped"
+    NOTHING = "NOTHING"
+    RUNNING = "RUNNING"
+    STOPPED = "STOPPED"
+    COMPLETED = "COMPLETED"

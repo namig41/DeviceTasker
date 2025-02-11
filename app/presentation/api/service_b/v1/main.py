@@ -2,15 +2,15 @@ from fastapi import FastAPI
 
 import uvicorn
 
-from presentation.api.lifespan import lifespan
-from presentation.api.middleware import apply_middleware
-from presentation.api.router import apply_routes
+from presentation.api.service_b.v1.lifespan import lifespan
+from presentation.api.service_b.v1.middleware import apply_middleware
+from presentation.api.service_b.v1.router import apply_routes
 from settings.config import settings
 
 
 def create_app() -> FastAPI:
     app: FastAPI = FastAPI(
-        title="WeatherAPI",
+        title="ServiceB",
         docs_url="/api/docs/",
         debug=True,
         lifespan=lifespan,
