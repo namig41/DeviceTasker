@@ -1,8 +1,11 @@
-from enum import Enum
+from enum import (
+    auto,
+    Enum,
+)
 
 
 class TaskStatus(Enum):
-    NOTHING = "NOTHING"
-    RUNNING = "RUNNING"
-    STOPPED = "STOPPED"
-    COMPLETED = "COMPLETED"
+    NOTHING = auto()
+    RUNNING = auto()
+    STOPPED = auto()
+    COMPLETED = auto()

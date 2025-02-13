@@ -20,9 +20,11 @@ from infrastructure.logger.factory import create_logger_dependency
 from infrastructure.message_broker.base import BaseMessageBroker
 from infrastructure.message_broker.config import MessageBrokerConfig
 from infrastructure.message_broker.message_broker_factory import ConnectionFactory
+from infrastructure.message_broker.producer.base import BaseProducer
+from infrastructure.message_broker.producer.device_task import DeviceTaskProducer
 from infrastructure.message_broker.rabbit_message_broker import RabbitMQMessageBroker
-from infrastructure.repositories.base import BaseTaskRepository
-from infrastructure.repositories.postgres import PostgreSQLTaskRepository
+from infrastructure.repositories.base import BaseDeviceTaskRepository
+from infrastructure.repositories.postgres import PostgreSQLDeviceTaskRepository
 from settings.config import (
     Settings,
     settings,
@@ -67,8 +69,14 @@ def _init_container() -> Container:
         scope=Scope.singleton,
     )
 
+    container.register(
+        BaseDeviceTaskRepository,
+        PostgreSQLDeviceTaskRepository,
+        scope=Scope.singleton,
+    )
+
     # Register Message Broker
-    message_broker_config: MessageBrokerConfig = MessageBrokerConfig(host="rabbitmq")
+    message_broker_config: MessageBrokerConfig = MessageBrokerConfig()
     container.register(
         MessageBrokerConfig,
         instance=message_broker_config,
@@ -87,9 +95,8 @@ def _init_container() -> Container:
     )
 
     container.register(
-        BaseTaskRepository,
-        PostgreSQLTaskRepository,
-        scope=Scope.singleton,
+        BaseProducer,
+        DeviceTaskProducer,
     )
 
     return container

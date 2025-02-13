@@ -2,7 +2,7 @@ from datetime import datetime
 
 from faker import Faker
 
-from domain.entities.task import Task
+from domain.entities.device_task import DeviceTask
 from domain.value_objects.status import TaskStatus
 
 
@@ -10,9 +10,16 @@ def test_create_task(faker: Faker):
     id: int = faker.pyint()
     task_id: str = faker.uuid4()
     equipment_id: str | None = None
-    parameters: dict = {}
+    parameters: dict = {
+        "parameters": {
+            "username": "admin",
+            "password": "admin",
+            "vlan": 534,
+            "interfaces": [1, 2, 3, 4],
+        },
+    }
 
-    task: Task = Task(
+    task: DeviceTask = DeviceTask(
         id=id,
         task_id=task_id,
         equipment_id=equipment_id,
@@ -24,4 +31,4 @@ def test_create_task(faker: Faker):
     assert task.equipment_id == equipment_id
     assert task.parameters == parameters
     assert isinstance(task.created_at, datetime)
-    assert task.status == TaskStatus.RUNNING.value
+    assert task.status == TaskStatus.NOTHING.value

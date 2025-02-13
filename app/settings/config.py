@@ -4,9 +4,13 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     PYTHONPATH: str
 
-    SERVICE_API_HOST: str
-    SERVICE_API_PORT: int
-    SERVICE_API_CORS: list[str]
+    SERVICE_A_API_HOST: str
+    SERVICE_A_API_PORT: int
+    SERVICE_A_API_CORS: list[str]
+
+    SERVICE_B_API_HOST: str
+    SERVICE_B_API_PORT: int
+    SERVICE_B_API_CORS: list[str]
 
     DATABASE_USER: str
     DATABASE_PASSWORD: str

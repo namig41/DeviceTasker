@@ -12,12 +12,19 @@ from domain.value_objects.status import TaskStatus
 
 
 @dataclass
-class Task(BaseEntity):
+class DeviceTask(BaseEntity):
     id: int | None = None
     task_id: str = field(default_factory=lambda: str(uuid4()))
     equipment_id: str | None = None
     parameters: dict | None = None
-    status: str = field(default=TaskStatus.RUNNING.value)
+    status: int = field(default=TaskStatus.NOTHING.value)
     created_at: datetime = field(default_factory=ts_now)
 
     def validate(self) -> None: ...
+
+    @classmethod
+    def build(cls, equipment_id: str, parameters: dict) -> "DeviceTask":
+        return cls(
+            equipment_id=equipment_id,
+            parameters=parameters,
+        )

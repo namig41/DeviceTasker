@@ -4,7 +4,7 @@ from infrastructure.exceptions.base import InfraException
 
 
 @dataclass(eq=False)
-class TaskNotFoundException(InfraException):
+class DeviceTaskNotFoundException(InfraException):
     @property
     def message(self):
         return "Задача не найдена"

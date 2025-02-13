@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from presentation.api.healthcheck.schemas import HealthcheckResponseSchema
+from presentation.api.service_b.v1.healthcheck.schemas import HealthcheckResponseSchema
 
 
 router = APIRouter(

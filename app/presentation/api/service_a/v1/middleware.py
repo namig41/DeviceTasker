@@ -10,7 +10,7 @@ def apply_middleware(app: FastAPI) -> FastAPI:
     """
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.SERVICE_API_CORS,
+        allow_origins=settings.SERVICE_A_API_CORS,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

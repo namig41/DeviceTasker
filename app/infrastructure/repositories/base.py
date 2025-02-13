@@ -5,20 +5,20 @@ from abc import (
 from dataclasses import dataclass
 from typing import Iterable
 
-from domain.entities.task import Task
+from domain.entities.device_task import DeviceTask
 
 
 @dataclass
-class BaseTaskRepository(ABC):
+class BaseDeviceTaskRepository(ABC):
 
     @abstractmethod
-    async def add_task(self, task: Task) -> None: ...
+    async def add_task(self, task: DeviceTask) -> None: ...
 
     @abstractmethod
-    async def get_task_by_id(self, id: int) -> Task: ...
+    async def get_task_by_id(self, id: int) -> DeviceTask: ...
 
     @abstractmethod
-    async def get_all_task(self) -> Iterable[Task]: ...
+    async def get_all_task(self) -> Iterable[DeviceTask]: ...
 
     @abstractmethod
     async def delete_task_by_id(self, id: int) -> None: ...

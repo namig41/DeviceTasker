@@ -2,12 +2,10 @@ from dataclasses import (
     dataclass,
     field,
 )
-from datetime import (
-    datetime,
-    timezone,
-)
+from datetime import datetime
 from uuid import UUID
 
+from tools.time_utils import ts_now
 from uuid6 import uuid7
 
 
@@ -16,4 +14,4 @@ class Message:
     id: UUID = field(default_factory=uuid7)
     data: dict = field(default_factory=dict)
     message_type: str = "message"
-    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = field(default_factory=ts_now)

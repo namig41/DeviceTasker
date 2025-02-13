@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from domain.entities.task import Task
+from domain.entities.device_task import DeviceTask
 from infrastructure.database.models import (
     mapper_registry,
     metadata,
@@ -9,7 +9,7 @@ from infrastructure.database.models import (
 
 
 def start_entity_mappers() -> None:
-    mapper_registry.map_imperatively(Task, tasks)
+    mapper_registry.map_imperatively(DeviceTask, tasks)
 
 
 async def create_database(engine: AsyncEngine) -> None:

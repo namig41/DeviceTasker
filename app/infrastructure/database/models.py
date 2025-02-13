@@ -21,6 +21,6 @@ tasks = Table(
     Column("task_id", String(50), nullable=False, unique=True),
     Column("equipment_id", String(50), nullable=False),
     Column("parameters", JSON, nullable=True),
-    Column("status", String(50), default="Running"),
+    Column("status", Integer, default=0),
     Column("created_at", TIMESTAMP(timezone=True), server_default=text("NOW()")),
 )

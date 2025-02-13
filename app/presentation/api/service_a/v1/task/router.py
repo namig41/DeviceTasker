@@ -11,7 +11,7 @@ from punq import Container
 
 from bootstrap.di import init_container
 from domain.exceptions.base import ApplicationException
-from infrastructure.repositories.base import BaseTaskRepository
+from infrastructure.repositories.base import BaseDeviceTaskRepository
 from presentation.api.service_a.v1.task.schemas import (
     DeviceTaskRequestSchema,
     ProvisionResponseSchema,
@@ -32,10 +32,12 @@ router = APIRouter(
 async def initialize_device(
     device_task: DeviceTaskRequestSchema,
     equipment_id: int = Depends(),
-    container: Container = Depends(init_container()),
+    container: Container = Depends(init_container),
 ) -> ProvisionResponseSchema:
     try:
-        repository: BaseTaskRepository = container.resolve(BaseTaskRepository)
+        repository: BaseDeviceTaskRepository = container.resolve(
+            BaseDeviceTaskRepository,
+        )
         await repository.get_task_by_id(equipment_id)
 
         await asyncio.sleep(60)
