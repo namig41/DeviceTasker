@@ -5,9 +5,8 @@ from abc import (
 from dataclasses import dataclass
 
 from aio_pika.abc import AbstractQueue
-
-from infrastructure.message_broker.message import Message
-from infrastructure.message_broker.message_broker_factory import ConnectionFactory
+from service_b.infrastructure.message_broker.message import Message
+from service_b.infrastructure.message_broker.message_broker_factory import ConnectionFactory
 
 
 @dataclass

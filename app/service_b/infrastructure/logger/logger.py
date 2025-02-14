@@ -1,7 +1,7 @@
 import logging
 from dataclasses import dataclass
 
-from infrastructure.logger.base import ILogger
+from service_b.infrastructure.logger.base import ILogger
 
 
 @dataclass

@@ -4,8 +4,8 @@ from abc import (
 )
 from dataclasses import dataclass
 
-from infrastructure.message_broker.base import BaseMessageBroker
-from infrastructure.message_broker.message import Message
+from service_a.infrastructure.message_broker.base import BaseMessageBroker
+from service_a.infrastructure.message_broker.message import Message
 
 
 @dataclass

@@ -2,8 +2,8 @@ import logging
 import sys
 from typing import TextIO
 
-from infrastructure.logger.base import ILogger
-from infrastructure.logger.logger import Logger
+from service_a.infrastructure.logger.base import ILogger
+from service_a.infrastructure.logger.logger import Logger
 
 
 def logger_factory(name: str, level: int, stream: TextIO) -> logging.Logger:

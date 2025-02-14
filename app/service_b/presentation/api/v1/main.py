@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 
 import uvicorn
-
-from presentation.api.service_b.v1.lifespan import lifespan
-from presentation.api.service_b.v1.middleware import apply_middleware
-from presentation.api.service_b.v1.router import apply_routes
-from settings.config import settings
+from service_b.presentation.api.v1.lifespan import lifespan
+from service_b.presentation.api.v1.middleware import apply_middleware
+from service_b.presentation.api.v1.router import apply_routes
+from service_b.settings.config import settings
 
 
 def create_app() -> FastAPI:

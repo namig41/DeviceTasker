@@ -5,7 +5,7 @@ from abc import (
 from dataclasses import dataclass
 from typing import Iterable
 
-from domain.entities.device_task import DeviceTask
+from service_b.domain.entities.device_task import DeviceTask
 
 
 @dataclass

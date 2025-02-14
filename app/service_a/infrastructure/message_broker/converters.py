@@ -6,8 +6,7 @@ from uuid import UUID
 
 import orjson
 import pika
-
-from infrastructure.message_broker.message import Message
+from service_a.infrastructure.message_broker.message import Message
 
 
 def build_message(message: Message) -> pika.Message:

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from domain.exceptions.base import ApplicationException
+from service_a.domain.exceptions.base import ApplicationException
 
 
 @dataclass(eq=False)

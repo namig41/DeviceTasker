@@ -1,16 +1,15 @@
 from dataclasses import dataclass
 from typing import Iterable
 
+from service_b.domain.entities.device_task import DeviceTask
+from service_b.infrastructure.exceptions.repository import DeviceTaskNotFoundException
+from service_b.infrastructure.repositories.base import BaseDeviceTaskRepository
 from sqlalchemy import (
     delete,
     select,
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio.engine import AsyncEngine
-
-from domain.entities.device_task import DeviceTask
-from infrastructure.exceptions.repository import DeviceTaskNotFoundException
-from infrastructure.repositories.base import BaseDeviceTaskRepository
 
 
 @dataclass

@@ -6,14 +6,13 @@ from fastapi import (
 )
 
 from punq import Container
-
-from bootstrap.di import init_container
-from domain.entities.device_task import DeviceTask
-from domain.exceptions.base import ApplicationException
-from infrastructure.message_broker.message import Message
-from infrastructure.message_broker.producer.base import BaseProducer
-from infrastructure.repositories.base import BaseDeviceTaskRepository
-from presentation.api.service_b.v1.device_task.schemas import (
+from service_b.bootstrap.di import init_container
+from service_b.domain.entities.device_task import DeviceTask
+from service_b.domain.exceptions.base import ApplicationException
+from service_b.infrastructure.message_broker.message import Message
+from service_b.infrastructure.message_broker.producer.base import BaseProducer
+from service_b.infrastructure.repositories.base import BaseDeviceTaskRepository
+from service_b.presentation.api.v1.device_task.schemas import (
     DeviceTaskRequestSchema,
     ProvisionResponseSchema,
 )

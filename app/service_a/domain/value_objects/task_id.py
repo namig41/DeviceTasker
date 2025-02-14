@@ -1,8 +1,8 @@
 import re
 from dataclasses import dataclass
 
-from domain.exceptions.task_id import DeviceIdIncorrectValueException
-from domain.value_objects.base import BaseValueObject
+from service_a.domain.exceptions.task_id import DeviceIdIncorrectValueException
+from service_a.domain.value_objects.base import BaseValueObject
 
 
 @dataclass(frozen=True)

@@ -5,10 +5,9 @@ from dataclasses import (
 from datetime import datetime
 from uuid import uuid4
 
-from tools.time_utils import ts_now
-
-from domain.entities.base import BaseEntity
-from domain.value_objects.status import TaskStatus
+from service_b.domain.entities.base import BaseEntity
+from service_b.domain.value_objects.status import TaskStatus
+from service_b.tools.time_utils import ts_now
 
 
 @dataclass

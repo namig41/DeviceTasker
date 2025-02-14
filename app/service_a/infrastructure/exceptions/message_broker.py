@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from infrastructure.exceptions.base import InfraException
+from service_a.infrastructure.exceptions.base import InfraException
 
 
 @dataclass(eq=False)

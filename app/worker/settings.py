@@ -17,8 +17,10 @@ class Settings(BaseSettings):
 
     @property
     def get_message_broker_url(self) -> str:
-        return f"""amqp://{self.MESSAGE_BROKER_USER}:{self.MESSAGE_BROKER_PASSWORD}
-    @{self.MESSAGE_BROKER_HOST}:{self.MESSAGE_BROKER_PORT}/"""
+        return (
+            f"amqp://{self.MESSAGE_BROKER_USER}:{self.MESSAGE_BROKER_PASSWORD}"
+            f"@{self.MESSAGE_BROKER_HOST}:{self.MESSAGE_BROKER_PORT}/"
+        )
 
 
 settings = Settings()

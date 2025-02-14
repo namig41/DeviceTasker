@@ -11,24 +11,23 @@ from punq import (
     Container,
     Scope,
 )
-from sqlalchemy.ext.asyncio.engine import AsyncEngine
-
-from infrastructure.database.config import DBConfig
-from infrastructure.database.init import init_database
-from infrastructure.logger.base import ILogger
-from infrastructure.logger.factory import create_logger_dependency
-from infrastructure.message_broker.base import BaseMessageBroker
-from infrastructure.message_broker.config import MessageBrokerConfig
-from infrastructure.message_broker.message_broker_factory import ConnectionFactory
-from infrastructure.message_broker.producer.base import BaseProducer
-from infrastructure.message_broker.producer.device_task import DeviceTaskProducer
-from infrastructure.message_broker.rabbit_message_broker import RabbitMQMessageBroker
-from infrastructure.repositories.base import BaseDeviceTaskRepository
-from infrastructure.repositories.postgres import PostgreSQLDeviceTaskRepository
-from settings.config import (
+from service_b.infrastructure.database.config import DBConfig
+from service_b.infrastructure.database.init import init_database
+from service_b.infrastructure.logger.base import ILogger
+from service_b.infrastructure.logger.factory import create_logger_dependency
+from service_b.infrastructure.message_broker.base import BaseMessageBroker
+from service_b.infrastructure.message_broker.config import MessageBrokerConfig
+from service_b.infrastructure.message_broker.message_broker_factory import ConnectionFactory
+from service_b.infrastructure.message_broker.producer.base import BaseProducer
+from service_b.infrastructure.message_broker.producer.device_task import DeviceTaskProducer
+from service_b.infrastructure.message_broker.rabbit_message_broker import RabbitMQMessageBroker
+from service_b.infrastructure.repositories.base import BaseDeviceTaskRepository
+from service_b.infrastructure.repositories.postgres import PostgreSQLDeviceTaskRepository
+from service_b.settings.config import (
     Settings,
     settings,
 )
+from sqlalchemy.ext.asyncio.engine import AsyncEngine
 
 
 @lru_cache(1)

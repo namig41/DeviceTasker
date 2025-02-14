@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from settings.config import settings
+from service_b.settings.config import settings
 
 
 @dataclass

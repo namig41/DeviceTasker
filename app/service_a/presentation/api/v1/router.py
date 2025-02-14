@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from presentation.api.v1.device_task.router import router as device_task_router
-from presentation.api.v1.healthcheck.router import router as healthcheck_router
+from service_a.presentation.api.v1.device_task.router import router as device_task_router
+from service_a.presentation.api.v1.healthcheck.router import router as healthcheck_router
 
 
 def apply_routes(app: FastAPI) -> FastAPI:

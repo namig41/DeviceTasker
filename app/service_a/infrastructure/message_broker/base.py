@@ -3,11 +3,10 @@ from abc import (
     abstractmethod,
 )
 from dataclasses import dataclass
+from typing import Any
 
-from pika.abc import AbstractQueue
-
-from infrastructure.message_broker.message import Message
-from infrastructure.message_broker.message_broker_factory import ConnectionFactory
+from service_a.infrastructure.message_broker.message import Message
+from service_a.infrastructure.message_broker.message_broker_factory import ConnectionFactory
 
 
 @dataclass
@@ -31,7 +30,7 @@ class BaseMessageBroker(ABC):
         queue_name: str,
         exchange_name: str,
         routing_key: str,
-    ) -> AbstractQueue: ...
+    ) -> Any: ...
 
     @abstractmethod
     def connect(self) -> None: ...

@@ -3,8 +3,7 @@ from dataclasses import dataclass
 import aio_pika
 from aio_pika.abc import AbstractRobustConnection
 from aio_pika.pool import Pool
-
-from infrastructure.message_broker.config import MessageBrokerConfig
+from service_b.infrastructure.message_broker.config import MessageBrokerConfig
 
 
 @dataclass

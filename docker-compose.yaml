@@ -5,7 +5,7 @@ services:
     container_name: service_a_api_app
     build:
       dockerfile: Dockerfile
-    command: "uv run uvicorn --factory presentation.api.service_a.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
+    command: "uv run uvicorn --factory service_a.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
     ports:
       - '${SERVICE_A_API_PORT}:8000'
     volumes:
@@ -19,7 +19,7 @@ services:
     container_name: service_b_api_app
     build:
       dockerfile: Dockerfile
-    command: "uv run uvicorn --factory presentation.api.service_b.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
+    command: "uv run uvicorn --factory service_b.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
     ports:
       - '${SERVICE_B_API_PORT}:8000'
     volumes:

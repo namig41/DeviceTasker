@@ -1,6 +1,6 @@
-from infrastructure.message_broker.constants import DEVICE_TASK_EXCHANGE_NAME
-from infrastructure.message_broker.message import Message
-from infrastructure.message_broker.producer.base import BaseProducer
+from service_a.infrastructure.message_broker.constants import DEVICE_TASK_EXCHANGE_NAME
+from service_a.infrastructure.message_broker.message import Message
+from service_a.infrastructure.message_broker.producer.base import BaseProducer
 
 
 class DeviceTaskProducer(BaseProducer):

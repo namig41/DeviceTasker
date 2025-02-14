@@ -1,22 +1,19 @@
 from dataclasses import dataclass
 
 import pika
-from pika.abc import (
-    AbstractChannel,
-    AbstractConnection,
-)
+from pika import BlockingConnection
+from pika.adapters.blocking_connection import BlockingChannel
 from pika.exceptions import AMQPConnectionError
-
-from infrastructure.exceptions.message_broker import MessageBrokerFailedConnectionException
-from infrastructure.message_broker.base import BaseMessageBroker
-from infrastructure.message_broker.converters import build_message
-from infrastructure.message_broker.message import Message
+from service_a.infrastructure.exceptions.message_broker import MessageBrokerFailedConnectionException
+from service_a.infrastructure.message_broker.base import BaseMessageBroker
+from service_a.infrastructure.message_broker.converters import build_message
+from service_a.infrastructure.message_broker.message import Message
 
 
 @dataclass
 class RabbitMQMessageBroker(BaseMessageBroker):
-    connection: AbstractConnection
-    channel: AbstractChannel
+    connection: BlockingConnection
+    channel: BlockingChannel
 
     def publish_message(
         self,

@@ -5,7 +5,7 @@ from dataclasses import (
 from datetime import datetime
 from uuid import UUID
 
-from tools.time_utils import ts_now
+from service_a.tools.time_utils import ts_now
 from uuid6 import uuid7
 
 

@@ -1,25 +1,22 @@
 from dataclasses import dataclass
 
 import pika
-from pika.abc import (
-    AbstractChannel,
-    AbstractConnection,
-)
+from pika import BlockingConnection
+from pika.adapters.blocking_connection import BlockingChannel
 from pika.exceptions import AMQPConnectionError
-
-from infrastructure.message_broker.config import MessageBrokerConfig
+from service_a.infrastructure.message_broker.config import MessageBrokerConfig
 
 
 @dataclass
 class ConnectionFactory:
     config: MessageBrokerConfig
 
-    def get_connection(self) -> AbstractConnection:
+    def get_connection(self) -> BlockingConnection:
         """
         Создает и возвращает синхронное соединение с RabbitMQ.
         """
         try:
-            connection = pika.BlockingConnection(
+            connection = BlockingConnection(
                 pika.ConnectionParameters(
                     host=self.config.host,
                     port=self.config.port,
@@ -38,7 +35,7 @@ class ConnectionFactory:
 class ChannelFactory:
     connection_factory: ConnectionFactory
 
-    def get_channel(self) -> AbstractChannel:
+    def get_channel(self) -> BlockingChannel:
         """
         Создает и возвращает канал (channel) для работы с RabbitMQ.
         """

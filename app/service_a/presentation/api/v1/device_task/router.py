@@ -6,14 +6,13 @@ from fastapi import (
 )
 
 from punq import Container
-
-from bootstrap.di import init_container
-from domain.entities.device_task import DeviceTask
-from domain.exceptions.base import ApplicationException
-from infrastructure.message_broker.message import Message
-from infrastructure.message_broker.producer.base import BaseProducer
-from infrastructure.repositories.base import BaseDeviceTaskRepository
-from presentation.api.v1.device_task.schemas import (
+from service_a.bootstrap.di import init_container
+from service_a.domain.entities.device_task import DeviceTask
+from service_a.domain.exceptions.base import ApplicationException
+from service_a.infrastructure.message_broker.message import Message
+from service_a.infrastructure.message_broker.producer.base import BaseProducer
+from service_a.infrastructure.repositories.base import BaseDeviceTaskRepository
+from service_a.presentation.api.v1.device_task.schemas import (
     DeviceTaskRequestSchema,
     ProvisionResponseSchema,
 )
@@ -46,9 +45,9 @@ def create_task(
             parameters=device_task_schema.parameters,
         )
 
-        await repository.add_task(device_task)
+        repository.add_task(device_task)
 
-        await producer.publish(
+        producer.publish(
             Message(id=device_task.task_id),
         )
         # await asyncio.sleep(60)

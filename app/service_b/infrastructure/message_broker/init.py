@@ -1,5 +1,5 @@
-from infrastructure.message_broker.base import BaseMessageBroker
-from infrastructure.message_broker.constants import (
+from service_b.infrastructure.message_broker.base import BaseMessageBroker
+from service_b.infrastructure.message_broker.constants import (
     DEVICE_TASK_EXCHANGE_NAME,
     DEVICE_TASK_QUEUE_NAME,
     DEVICE_TASK_ROUTE_KEY_TEMPLATE,

@@ -7,11 +7,10 @@ from aio_pika.abc import (
     AbstractQueue,
 )
 from aiormq import AMQPConnectionError
-
-from infrastructure.exceptions.message_broker import MessageBrokerFailedConnectionException
-from infrastructure.message_broker.base import BaseMessageBroker
-from infrastructure.message_broker.converters import build_message
-from infrastructure.message_broker.message import Message
+from service_b.infrastructure.exceptions.message_broker import MessageBrokerFailedConnectionException
+from service_b.infrastructure.message_broker.base import BaseMessageBroker
+from service_b.infrastructure.message_broker.converters import build_message
+from service_b.infrastructure.message_broker.message import Message
 
 
 @dataclass
