@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     command: "uv run uvicorn --factory presentation.api.service_a.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
     ports:
-      - '${SERVICE_API_A_PORT}:8000'
+      - '${SERVICE_A_API_PORT}:8000'
     volumes:
       - ./app/:/app
     env_file:
@@ -15,13 +15,13 @@ services:
     networks:
       - backend
 
-  service_a_api_app:
+  service_b_api_app:
     container_name: service_b_api_app
     build:
       dockerfile: Dockerfile
     command: "uv run uvicorn --factory presentation.api.service_b.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
     ports:
-      - '${SERVICE_API_B_PORT}:8000'
+      - '${SERVICE_B_API_PORT}:8000'
     volumes:
       - ./app/:/app
     env_file:
@@ -73,6 +73,7 @@ services:
 volumes:
   local_pgdata:
   pgadmin-data:
+
 
 networks:
   backend:

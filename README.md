@@ -1,82 +1,82 @@
-# FastAPI DDD Boilerplate
+# DeviceTasker
 
-A boilerplate project for building scalable and maintainable applications using FastAPI with a Domain-Driven Design (DDD) approach. This template provides a solid foundation to structure your code and manage dependencies effectively.
+Сервис обработки задач и активации оборудования, взаимодействующий с брокером сообщений
 
-## Features
+## 🛠️ Технологии
 
-- **FastAPI Framework**: High-performance and easy-to-use web framework for building APIs.
-- **Domain-Driven Design (DDD)**: Organized folder structure for separating concerns.
-- **Async Support**: Built-in support for asynchronous operations.
-- **Environment Configuration**: Centralized `.env` for easy environment variable management.
-- **Dependency Injection**: Simplified DI setup for managing dependencies.
+- **Python 3.12+** для разработки.
+- **FastAPI** для создания REST API.
+- **Postgres** для хранения и анализа данных.
+- **RabittMQ** в качестве брокера сообщений
+- **httpx** для асинхронных HTTP-запросов.
+- **punq** для внедрения зависимостей.
+- **docker-compose** для контейнеризации.
+- **Makefile** для управления сборкой и запуском.
 
-## Folder Structure
+## ⚙️ Установка
 
-```
-fastapi-ddd-boilerplate/
-├── app/
-│   ├── bootstrap/        # Dependency injection setup
-│   ├── domain/           # Domain entities, value objects, aggregates
-│   ├── infrastructure/   # Database, caching, external services
-│   ├── presentation/     # API endpoints and related logic
-│   └── application/      # Application services, use cases
-├── tests/                # Unit and integration tests
-├── .env                  # Environment variables
-├── requirements.txt      # Python dependencies
-├── uv.py                 # Entry point for the application
-└── README.md             # Project documentation
-```
+Для установки и запуска проекта выполните следующие шаги:
 
-## Prerequisites
+1. Клонируйте репозиторий:
+    ```bash
+    git clone https://github.com/namig41/DeviceTasker.git
+    cd DeviceTasker
+    ```
 
-- Python 3.12 or higher
-- [uv](https://github.com/username/uv) as the package manager
+2. Создайте и активируйте виртуальное окружение:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # Для Linux/MacOS
+    venv\Scripts\activate  # Для Windows
+    ```
 
-## Setup
+3. Установите зависимости:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/fastapi-ddd-boilerplate.git
-   cd fastapi-ddd-boilerplate
-   ```
+4. Настройте файл конфигурации `.env`:
+    ```bash
+    cp .env.example .env
+    ```
 
-2. **Install Dependencies**:
-   ```bash
-   uv install
-   ```
+5. **Сборка и запуск через uv**:
 
-3. **Setup Environment Variables**:
-   Create a `.env` file in the root directory and configure the required settings.
+    Установите `uv`:
 
-4. **Run Database Migrations** (if applicable):
-   ```bash
-   uv migrate
-   ```
+    ```bash
+    pip install uv
+    ```
+    Установите зависимости:
 
-5. **Start the Server**:
-   ```bash
-   uv run
-   ```
-   The application will be accessible at `http://127.0.0.1:8000`.
+    ```bash
+    uv sync
+    ```
 
-## Scripts
+6. **Сборка и запуск через Docker**:
+    Проект использует `Makefile` для автоматизации сборки и запуска через Docker.
 
-- `uv install`: Install dependencies
-- `uv run`: Start the FastAPI server
-- `uv test`: Run the test suite
-- `uv lint`: Check for code quality issues
+    Для сборки и запуска используйте следующие команды:
 
-## Testing
+    - Для сборки Docker-образа:
+      ```bash
+      make all
+      ```
 
-Run the test suite using:
+    - Для остановки контейнеров:
+      ```bash
+      make stop
+      ```
+
+    - Для очистка контейнеров:
+      ```bash
+      make clean
+      ```
+
+## 🧪 Тестирование
+
+Проект включает в себя юнит-тесты и интеграционные тесты. Для их выполнения используйте команду:
+
 ```bash
-uv test
+make tests
 ```
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
