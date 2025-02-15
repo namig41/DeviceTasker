@@ -12,7 +12,10 @@ from service_b.infrastructure.message_broker.message import Message
 def build_message(message: Message) -> aio_pika.Message:
     return aio_pika.Message(
         body=orjson.dumps(
-            {"message_type": message.message_type, "data": message.data},
+            {
+                "message_type": message.message_type,
+                "data": message.data,
+            },
         ),
         message_id=str(message.id),
         content_type="application/json",

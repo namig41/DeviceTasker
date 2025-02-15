@@ -1,9 +1,8 @@
 import pytest
 from punq import Container
-
-from domain.entities.device_task import DeviceTask
-from infrastructure.exceptions.repository import DeviceTaskNotFoundException
-from infrastructure.repositories.base import BaseDeviceTaskRepository
+from service_b.domain.entities.device_task import DeviceTask
+from service_b.infrastructure.exceptions.repository import DeviceTaskNotFoundException
+from service_b.infrastructure.repositories.base import BaseDeviceTaskRepository
 
 
 @pytest.mark.asyncio

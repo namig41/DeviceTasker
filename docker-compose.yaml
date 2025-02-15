@@ -5,13 +5,13 @@ services:
     container_name: service_a_api_app
     build:
       dockerfile: Dockerfile
-    command: "uv run uvicorn --factory service_a.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
+    command: "uvicorn --factory service_a.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000 --ssl-keyfile /etc/ssl/private/ssl_key.pem --ssl-certfile /etc/ssl/certs/ssl_cert.pem"
     ports:
       - '${SERVICE_A_API_PORT}:8000'
-    volumes:
-      - ./app/:/app
     env_file:
       - .env
+    volumes:
+      - ./ssl:/etc/ssl
     networks:
       - backend
 
@@ -19,13 +19,13 @@ services:
     container_name: service_b_api_app
     build:
       dockerfile: Dockerfile
-    command: "uv run uvicorn --factory service_b.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000"
+    command: "uvicorn --factory service_b.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000 --ssl-keyfile /etc/ssl/private/ssl_key.pem --ssl-certfile /etc/ssl/certs/ssl_cert.pem"
     ports:
       - '${SERVICE_B_API_PORT}:8000'
-    volumes:
-      - ./app/:/app
     env_file:
       - .env
+    volumes:
+      - ./ssl:/etc/ssl  # монтируем каталог с SSL-сертификатами в контейнер
     networks:
       - backend
 
@@ -73,7 +73,6 @@ services:
 volumes:
   local_pgdata:
   pgadmin-data:
-
 
 networks:
   backend:

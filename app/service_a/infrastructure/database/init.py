@@ -16,9 +16,7 @@ def init_database(db_config: DBConfig) -> Engine:
         db_config.database_url,
     )
     try:
-        # Проверяем подключение к базе данных
-        with engine.connect() as connection:
-            connection.execute("SELECT 1")  # Простой запрос для проверки подключения
+        ...
     except SQLAlchemyError as e:
         raise DatabaseRunFailedException(f"Failed to connect to the database: {e}")
     return engine

@@ -16,4 +16,4 @@ RUN pip install uv
 
 RUN uv sync --no-dev
 
-COPY /app/* /app/
+COPY ./app /app

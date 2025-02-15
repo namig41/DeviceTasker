@@ -1,18 +1,19 @@
 from dataclasses import dataclass
 
 import pika
-from pika import BlockingConnection
+import pika.exchange_type
 from pika.adapters.blocking_connection import BlockingChannel
 from pika.exceptions import AMQPConnectionError
 from service_a.infrastructure.exceptions.message_broker import MessageBrokerFailedConnectionException
 from service_a.infrastructure.message_broker.base import BaseMessageBroker
 from service_a.infrastructure.message_broker.converters import build_message
 from service_a.infrastructure.message_broker.message import Message
+from service_a.infrastructure.message_broker.message_broker_factory import ConnectionFactory
 
 
 @dataclass
 class RabbitMQMessageBroker(BaseMessageBroker):
-    connection: BlockingConnection
+    connection_factory: ConnectionFactory
     channel: BlockingChannel
 
     def publish_message(
@@ -21,27 +22,28 @@ class RabbitMQMessageBroker(BaseMessageBroker):
         routing_key: str,
         exchange_name: str,
     ) -> None:
-        rq_message = build_message(message)
-        self._publish_message(rq_message, routing_key, exchange_name)
+        properties, body = build_message(message)
+        self._publish_message(properties, body, routing_key, exchange_name)
 
     def declare_exchange(self, exchange_name: str) -> None:
         self.channel.exchange_declare(
             exchange=exchange_name,
-            exchange_type=pika.ExchangeType.topic,
+            exchange_type="direct",
             durable=True,
         )
 
     def _publish_message(
         self,
-        rq_message: pika.BasicProperties,
+        properties: pika.BasicProperties,
+        body: bytes,
         routing_key: str,
         exchange_name: str,
     ) -> None:
         self.channel.basic_publish(
             exchange=exchange_name,
             routing_key=routing_key,
-            body=rq_message.body,
-            properties=rq_message,
+            body=body,
+            properties=properties,
         )
 
     def declare_queue(
@@ -62,9 +64,7 @@ class RabbitMQMessageBroker(BaseMessageBroker):
 
     def connect(self) -> None:
         try:
-            self.connection = pika.BlockingConnection(
-                pika.ConnectionParameters(host="localhost"),
-            )
+            self.connection = self.connection_factory.get_connection()
             self.channel = self.connection.channel()
         except AMQPConnectionError:
             raise MessageBrokerFailedConnectionException()

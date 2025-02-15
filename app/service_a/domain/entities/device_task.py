@@ -26,4 +26,5 @@ class DeviceTask(BaseEntity):
         return cls(
             equipment_id=equipment_id,
             parameters=parameters,
+            status=TaskStatus.RUNNING.value,
         )

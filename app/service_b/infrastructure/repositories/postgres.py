@@ -5,6 +5,7 @@ from service_b.domain.entities.device_task import DeviceTask
 from service_b.infrastructure.exceptions.repository import DeviceTaskNotFoundException
 from service_b.infrastructure.repositories.base import BaseDeviceTaskRepository
 from sqlalchemy import (
+    and_,
     delete,
     select,
 )
@@ -22,9 +23,14 @@ class PostgreSQLDeviceTaskRepository(BaseDeviceTaskRepository):
             session.add(task)
             await session.commit()
 
-    async def get_task_by_id(self, id: int) -> DeviceTask:
+    async def get_task_by_id(self, equipment_id: str, task_id: str) -> DeviceTask:
         async with AsyncSession(self.engine, expire_on_commit=False) as session:
-            query = select(DeviceTask).where(DeviceTask.id == id)
+            query = select(DeviceTask).where(
+                and_(
+                    DeviceTask.task_id == task_id,
+                    DeviceTask.equipment_id == equipment_id,
+                ),
+            )
             result = await session.execute(query)
             task: DeviceTask | None = result.scalar_one_or_none()
 

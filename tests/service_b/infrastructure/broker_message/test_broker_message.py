@@ -2,9 +2,8 @@ import asyncio
 
 import pytest
 from punq import Container
-
-from infrastructure.message_broker.base import BaseMessageBroker
-from infrastructure.message_broker.message import Message
+from service_b.infrastructure.message_broker.base import BaseMessageBroker
+from service_b.infrastructure.message_broker.message import Message
 
 
 @pytest.mark.asyncio

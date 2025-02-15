@@ -21,12 +21,11 @@ from service_a.infrastructure.message_broker.producer.device_task import DeviceT
 from service_a.infrastructure.message_broker.rabbit_message_broker import RabbitMQMessageBroker
 from service_a.infrastructure.repositories.base import BaseDeviceTaskRepository
 from service_a.infrastructure.repositories.postgres import PostgreSQLDeviceTaskRepository
-from sqlalchemy import Engine
-
-from settings.config import (
+from service_a.settings.config import (
     Settings,
     settings,
 )
+from sqlalchemy import Engine
 
 
 @lru_cache(1)

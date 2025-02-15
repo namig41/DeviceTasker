@@ -4,9 +4,9 @@ import pytest
 import pytest_asyncio
 from faker import Faker
 from punq import Container
+from service_b.infrastructure.database.utils import start_entity_mappers
 
-from infrastructure.database.utils import start_entity_mappers
-from tests.fixtures import init_dummy_container
+from tests.service_b.fixtures import init_dummy_container
 
 
 @pytest.fixture(scope="session")

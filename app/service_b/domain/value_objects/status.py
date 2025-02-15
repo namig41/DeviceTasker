@@ -6,6 +6,5 @@ from enum import (
 
 class TaskStatus(Enum):
     NOTHING = auto()
-    RUNNING = auto()
-    STOPPED = auto()
     COMPLETED = auto()
+    RUNNING = auto()

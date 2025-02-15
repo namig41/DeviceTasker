@@ -80,3 +80,7 @@
 ```bash
 make tests
 ```
+
+## Architecture
+
+![Architecture Diagram](assets/architecture.png)

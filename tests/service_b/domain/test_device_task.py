@@ -1,9 +1,8 @@
 from datetime import datetime
 
 from faker import Faker
-
-from domain.entities.device_task import DeviceTask
-from domain.value_objects.status import TaskStatus
+from service_b.domain.entities.device_task import DeviceTask
+from service_b.domain.value_objects.status import TaskStatus
 
 
 def test_create_task(faker: Faker):
