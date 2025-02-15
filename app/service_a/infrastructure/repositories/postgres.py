@@ -1,12 +1,15 @@
 from dataclasses import dataclass
+from time import sleep
 from typing import Iterable
 
 from service_a.domain.entities.device_task import DeviceTask
+from service_a.domain.value_objects.status import TaskStatus
 from service_a.infrastructure.exceptions.repository import DeviceTaskNotFoundException
 from service_a.infrastructure.repositories.base import BaseDeviceTaskRepository
 from sqlalchemy import (
     delete,
     select,
+    update,
 )
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
@@ -48,6 +51,26 @@ class PostgreSQLDeviceTaskRepository(BaseDeviceTaskRepository):
             result = session.scalars(query)
             tasks: Iterable[DeviceTask] = result.all()
             return tasks
+
+    def update_task_status_to_completed(
+        self, equipment_id: str, task_id: str, delay: int = 0,
+    ) -> None:
+        """
+        Обновляет статус задачи на выполненное.
+        """
+
+        sleep(delay)
+        with Session(self.engine, expire_on_commit=False) as session:
+            stmt = (
+                update(DeviceTask)
+                .where(
+                    DeviceTask.equipment_id == equipment_id,
+                    DeviceTask.task_id == task_id,
+                )
+                .values(status=TaskStatus.COMPLETED.value)
+            )
+            session.execute(stmt)
+            session.commit()
 
     def delete_task_by_id(self, id: int) -> None:
         """

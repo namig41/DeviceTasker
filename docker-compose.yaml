@@ -1,34 +1,6 @@
 version: '3.9'
 
 services:
-  service_a_api_app:
-    container_name: service_a_api_app
-    build:
-      dockerfile: Dockerfile
-    command: "uvicorn --factory service_a.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000 --ssl-keyfile /etc/ssl/private/ssl_key.pem --ssl-certfile /etc/ssl/certs/ssl_cert.pem"
-    ports:
-      - '${SERVICE_A_API_PORT}:8000'
-    env_file:
-      - .env
-    volumes:
-      - ./ssl:/etc/ssl
-    networks:
-      - backend
-
-  service_b_api_app:
-    container_name: service_b_api_app
-    build:
-      dockerfile: Dockerfile
-    command: "uvicorn --factory service_b.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 8000 --ssl-keyfile /etc/ssl/private/ssl_key.pem --ssl-certfile /etc/ssl/certs/ssl_cert.pem"
-    ports:
-      - '${SERVICE_B_API_PORT}:8000'
-    env_file:
-      - .env
-    volumes:
-      - ./ssl:/etc/ssl  # монтируем каталог с SSL-сертификатами в контейнер
-    networks:
-      - backend
-
   db_postgres:
     image: postgres
     container_name: postgres
@@ -70,9 +42,59 @@ services:
     networks:
       - backend
 
+  service_a_api_app:
+    container_name: service_a_api_app
+    build:
+      dockerfile: Dockerfile
+    command: "uv run uvicorn --factory service_a.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 443 --ssl-keyfile /etc/ssl/ssl.key --ssl-certfile /etc/ssl/ssl.crt"
+    ports:
+      - '${SERVICE_A_API_PORT}:443'
+    env_file:
+      - .env
+    volumes:
+      - ./ssl/:/etc/ssl
+    depends_on:
+      - db_postgres
+      - rabbitmq
+    networks:
+      - backend
+
+  service_b_api_app:
+    container_name: service_b_api_app
+    build:
+      dockerfile: Dockerfile
+    command: "uv run uvicorn --factory service_b.presentation.api.v1.main:create_app --reload --host 0.0.0.0 --port 443 --ssl-keyfile /etc/ssl/ssl.key --ssl-certfile /etc/ssl/ssl.crt"
+    ports:
+      - '${SERVICE_B_API_PORT}:443'
+    env_file:
+      - .env
+    volumes:
+      - ./ssl/:/etc/ssl
+    depends_on:
+      - db_postgres
+      - rabbitmq
+    networks:
+      - backend
+
+  worker:
+    container_name: worker
+    build:
+      dockerfile: Dockerfile
+    command: "uv run python -m worker.main"
+    env_file:
+      - .env
+    volumes:
+      - ./ssl/:/etc/ssl
+    depends_on:
+      - db_postgres
+      - rabbitmq
+    networks:
+      - backend
+
 volumes:
   local_pgdata:
   pgadmin-data:
+
 
 networks:
   backend:

@@ -8,9 +8,7 @@ from worker.settings import settings
 
 async def run_consumer() -> None:
     broker = RabbitBroker(url=settings.get_message_broker_url)
-
     broker.include_router(router=device_task_router)
-
     await broker.start()
 
     app = FastStream(broker)

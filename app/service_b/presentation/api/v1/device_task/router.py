@@ -1,5 +1,6 @@
 from fastapi import (
     APIRouter,
+    BackgroundTasks,
     Depends,
     HTTPException,
     status,
@@ -33,6 +34,7 @@ router = APIRouter(
 async def create_task(
     device_task_schema: DeviceTaskRequestSchema,
     equipment_id: str,
+    background_tasks: BackgroundTasks,
     container: Container = Depends(init_container),
 ) -> ProvisionResponseSchema:
     try:
@@ -50,9 +52,20 @@ async def create_task(
 
         await producer.publish(
             Message(
-                data={"device_id": device_task.task_id},
+                data={
+                    "task_id": device_task.task_id,
+                    "device_id": device_task.equipment_id,
+                },
             ),
         )
+
+        background_tasks.add_task(
+            repository.update_task_status_to_completed,
+            equipment_id=device_task.equipment_id,
+            task_id=device_task.task_id,
+            delay=device_task_schema.timeoutInSeconds,
+        )
+
     except ApplicationException as exception:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

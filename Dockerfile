@@ -6,7 +6,8 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get install -y python3-dev gcc musl-dev && \
+    apt-get install -y python3-dev gcc musl-dev \
+    ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 ADD pyproject.toml /app/
@@ -16,4 +17,4 @@ RUN pip install uv
 
 RUN uv sync --no-dev
 
-COPY ./app /app
+COPY ./app /app/

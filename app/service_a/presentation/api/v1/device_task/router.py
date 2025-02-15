@@ -1,5 +1,6 @@
 from fastapi import (
     APIRouter,
+    BackgroundTasks,
     Depends,
     HTTPException,
     status,
@@ -32,6 +33,7 @@ router = APIRouter(
 def create_task(
     device_task_schema: DeviceTaskRequestSchema,
     equipment_id: str,
+    background_tasks: BackgroundTasks,
     container: Container = Depends(init_container),
 ) -> ProvisionResponseSchema:
     try:
@@ -48,7 +50,19 @@ def create_task(
         repository.add_task(device_task)
 
         producer.publish(
-            Message(id=device_task.task_id),
+            Message(
+                data={
+                    "task_id": device_task.task_id,
+                    "device_id": device_task.equipment_id,
+                },
+            ),
+        )
+
+        background_tasks.add_task(
+            repository.update_task_status_to_completed,
+            equipment_id=device_task.equipment_id,
+            task_id=device_task.task_id,
+            delay=device_task_schema.timeoutInSeconds,
         )
     except ApplicationException as exception:
         raise HTTPException(

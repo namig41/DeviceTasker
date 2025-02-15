@@ -3,7 +3,6 @@ APP_FILE = docker-compose.yaml
 EXEC = docker exec -it
 ENV = --env-file .env
 
-# === All Project ===
 .PHONY: all stop clean tests
 
 all:
@@ -19,7 +18,6 @@ tests:
 	uv run pytest
 
 migrate.up:
-	uv run alembic revision --autogenerate -m "$(message)"
 	uv run alembic upgrade head
 
 migrate.down:

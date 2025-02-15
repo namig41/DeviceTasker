@@ -6,7 +6,7 @@ from faker import Faker
 from punq import Container
 from service_b.infrastructure.database.utils import start_entity_mappers
 
-from tests.service_b.fixtures import init_dummy_container
+from tests.fixtures import init_dummy_container
 
 
 @pytest.fixture(scope="session")

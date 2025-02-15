@@ -3,12 +3,12 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
 
-    SERVICE_A_API_HOST: str
-    SERVICE_A_API_PORT: int
+    SERVICE_B_API_HOST: str
+    SERVICE_B_API_PORT: int
 
     @property
     def get_service_url(self) -> str:
-        return f"http://{self.SERVICE_A_API_HOST}:{self.SERVICE_A_API_PORT}"
+        return f"https://{self.SERVICE_B_API_HOST}"
 
     MESSAGE_BROKER_HOST: str
     MESSAGE_BROKER_PORT: int
