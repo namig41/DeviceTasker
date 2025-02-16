@@ -83,7 +83,7 @@
 make tests
 ```
 
-## Architecture
+## 🕸 Архитектура
 
 ![Architecture Diagram](assets/architecture.png)
 
