@@ -20,6 +20,7 @@ def service_a() -> FastAPI:
 @pytest.fixture(scope="session")
 def service_b() -> FastAPI:
     app: FastAPI = create_service_b_app()
+
     app.dependency_overrides[container_b] = init_dummy_container
     return app
 

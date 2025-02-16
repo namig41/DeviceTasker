@@ -1,24 +1,22 @@
 import asyncio
 
-import pytest
-from httpx import AsyncClient
+from fastapi.testclient import TestClient
+
 from punq import Container
-from service_b.domain.value_objects.status import TaskStatus
-from service_b.infrastructure.repositories.base import BaseDeviceTaskRepository
+from service_a.domain.value_objects.status import TaskStatus
+from service_a.infrastructure.repositories.base import BaseDeviceTaskRepository
 
 
-@pytest.mark.asyncio
-async def test_task_processing(
+async def test_service_b_processing(
     container: Container,
-    service_a_client: AsyncClient,
-    service_b_client: AsyncClient,
+    service_a_client: TestClient,
 ):
     repository: BaseDeviceTaskRepository = container.resolve(BaseDeviceTaskRepository)
 
     equipment_id = "1234"
     payload = {"timeoutInSeconds": 10, "parameters": {}}
 
-    response = service_b_client.post(
+    response = service_a_client.post(
         f"/api/v1/equipment/cpe/{equipment_id}",
         json=payload,
     )
@@ -26,7 +24,7 @@ async def test_task_processing(
     assert response.status_code == 200
     assert response.json() == {"message": equipment_id}
 
-    response = service_b_client.post(
+    response = service_a_client.post(
         "/api/v1/tasks/",
         json={"equipment_id": "device_1"},
     )
