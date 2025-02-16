@@ -28,7 +28,9 @@ async def process_device_task(aio_message: dict, endpoint: str) -> None:
         device_id: str = aio_message["data"]["device_id"]
         task_id: str = aio_message["data"]["task_id"]
 
-        async with httpx.AsyncClient(base_url=settings.get_service_url, verify=cert_path) as client:
+        async with httpx.AsyncClient(
+            base_url=settings.get_service_url, verify=False,
+        ) as client:
             url: str = endpoint.format(device_id=device_id, task_id=task_id)
             response: Response = await client.get(url)
             response.raise_for_status()
@@ -44,12 +46,14 @@ async def process_device_task(aio_message: dict, endpoint: str) -> None:
 @router.subscriber(queue=RabbitQueue(name=DEVICE_TASK_QUEUE_A_NAME, durable=True))
 async def handle_device_task_service_a(aio_message: dict) -> None:
     await process_device_task(
-        aio_message, "/api/v1/equipment/cpe/{device_id}/task/{task_id}",
+        aio_message,
+        "/api/v1/equipment/cpe/{device_id}/task/{task_id}",
     )
 
 
 @router.subscriber(queue=RabbitQueue(name=DEVICE_TASK_QUEUE_B_NAME, durable=True))
 async def handle_device_task_service_b(aio_message: dict) -> None:
     await process_device_task(
-        aio_message, "/api/v1/equipment/cpe/{device_id}/task/{task_id}",
+        aio_message,
+        "/api/v1/equipment/cpe/{device_id}/task/{task_id}",
     )

@@ -50,7 +50,10 @@ class PostgreSQLDeviceTaskRepository(BaseDeviceTaskRepository):
             return users
 
     async def update_task_status_to_completed(
-        self, equipment_id: str, task_id: str, delay: int = 0,
+        self,
+        equipment_id: str,
+        task_id: str,
+        delay: int = 0,
     ) -> None:
         await asyncio.sleep(delay)
 

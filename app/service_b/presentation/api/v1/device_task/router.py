@@ -11,6 +11,7 @@ from service_b.bootstrap.di import init_container
 from service_b.domain.entities.device_task import DeviceTask
 from service_b.domain.exceptions.base import ApplicationException
 from service_b.domain.value_objects.status import TaskStatus
+from service_b.infrastructure.exceptions.repository import DeviceTaskNotFoundException
 from service_b.infrastructure.message_broker.message import Message
 from service_b.infrastructure.message_broker.producer.base import BaseProducer
 from service_b.infrastructure.repositories.base import BaseDeviceTaskRepository
@@ -66,14 +67,19 @@ async def create_task(
             delay=device_task_schema.timeoutInSeconds,
         )
 
-    except ApplicationException as exception:
+    except DeviceTaskNotFoundException:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={"message": exception.message},
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"message": "The requested equipment is not found"},
+        )
+    except ApplicationException:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail={"message": "Internal provisioning exception"},
         )
     return ProvisionResponseSchema(
         code=status.HTTP_200_OK,
-        message=str(device_task.task_id),
+        message=device_task.task_id,
     )
 
 
@@ -97,8 +103,6 @@ async def get_task_status(
             equipment_id=equipment_id,
         )
 
-        print(device_task)
-
         if device_task.status == TaskStatus.COMPLETED.value:
             response: ProvisionResponseSchema = ProvisionResponseSchema(
                 code=status.HTTP_200_OK,
@@ -112,10 +116,15 @@ async def get_task_status(
         else:
             raise ApplicationException()
 
-    except ApplicationException as exception:
+    except DeviceTaskNotFoundException:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={"message": exception.message},
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"message": "The requested equipment is not found"},
+        )
+    except ApplicationException:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail={"message": "Internal provisioning exception"},
         )
 
     return response

@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
   db_postgres:
-    image: postgres
     container_name: postgres
+    image: postgres
     restart: always
     environment:
       POSTGRES_USER: ${DATABASE_USER}
@@ -13,6 +13,11 @@ services:
       - "${DATABASE_PORT}:5432"
     volumes:
       - local_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - backend
 
@@ -31,14 +36,19 @@ services:
       - backend
 
   rabbitmq:
-    image: rabbitmq:3-management
     container_name: rabbitmq
+    image: rabbitmq:3-management
     ports:
       - "${MESSAGE_BROKER_PORT}:5672"
       - "${MESSAGE_BROKER_UI_PORT}:15672"
     environment:
       RABBITMQ_DEFAULT_USER: ${MESSAGE_BROKER_USER}
       RABBITMQ_DEFAULT_PASS: ${MESSAGE_BROKER_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "rabbitmq-diagnostics check_running" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - backend
 
@@ -54,8 +64,10 @@ services:
     volumes:
       - ./ssl/:/etc/ssl
     depends_on:
-      - db_postgres
-      - rabbitmq
+      db_postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - backend
 
@@ -71,8 +83,10 @@ services:
     volumes:
       - ./ssl/:/etc/ssl
     depends_on:
-      - db_postgres
-      - rabbitmq
+      db_postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - backend
 
@@ -86,8 +100,10 @@ services:
     volumes:
       - ./ssl/:/etc/ssl
     depends_on:
-      - db_postgres
-      - rabbitmq
+      db_postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     networks:
       - backend
 

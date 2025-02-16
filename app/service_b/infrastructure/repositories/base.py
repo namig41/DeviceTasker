@@ -22,7 +22,10 @@ class BaseDeviceTaskRepository(ABC):
 
     @abstractmethod
     async def update_task_status_to_completed(
-        self, equipment_id: str, task_id: str, delay: int,
+        self,
+        equipment_id: str,
+        task_id: str,
+        delay: int,
     ) -> None: ...
 
     @abstractmethod

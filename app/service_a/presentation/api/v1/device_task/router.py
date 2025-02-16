@@ -17,6 +17,7 @@ from service_a.presentation.api.v1.device_task.schemas import (
     DeviceTaskRequestSchema,
     ProvisionResponseSchema,
 )
+from service_b.infrastructure.exceptions.repository import DeviceTaskNotFoundException
 
 
 router = APIRouter(
@@ -64,12 +65,19 @@ def create_task(
             task_id=device_task.task_id,
             delay=device_task_schema.timeoutInSeconds,
         )
-    except ApplicationException as exception:
+
+    except DeviceTaskNotFoundException:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail={"message": exception.message},
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail={"message": "The requested equipment is not found"},
         )
+    except ApplicationException:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail={"message": "Internal provisioning exception"},
+        )
+
     return ProvisionResponseSchema(
         code=status.HTTP_200_OK,
-        message=str(device_task.task_id),
+        message=device_task.task_id,
     )

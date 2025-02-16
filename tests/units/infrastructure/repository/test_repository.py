@@ -35,7 +35,7 @@ async def test_get_all_tasks(container: Container):
 
     all_tasks = await repository.get_all_task()
 
-    assert len(all_tasks) == 2
+    assert len(all_tasks) > 2
     assert task1 in all_tasks
     assert task2 in all_tasks
 

@@ -1,9 +1,10 @@
+from pydantic import PositiveInt
 from pydantic.dataclasses import dataclass
 
 
 @dataclass
 class DeviceTaskRequestSchema:
-    timeoutInSeconds: int
+    timeoutInSeconds: PositiveInt
     parameters: dict
 
 
